@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMoney.cshtml";
+}
+
+@using Models;
+@model List<Pay>
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Default</title>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Content/css")
+</head>
+<body>
+    <div>
+        <table class="table table-bordered">
+            <tr>
+                <th>员工姓名</th>
+                <th>店铺名称</th>
+                <th>等级</th>
+                <th>结算时间</th>
+                <th>基本工资</th>
+                <th>考勤扣款</th>
+                <th>补贴总金额</th>
+                <th>奖金金额</th>
+                <th>应发工资</th>
+                <th>实发工资总额</th>
+                <th>备注</th>
+            </tr>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>@item.PersonnelName</td>
+                <td>@item.ShopName</td>
+                <td>@item.RankName</td>
+                <td>@item.PayDate</td>
+                <td>@item.Basepay</td>
+                <td>@item.AttendanceDebits</td>
+                <td>@item.SubMoney</td>
+                <td>@item.PrizeMoney</td>
+                <td>@item.Payables</td>
+                <td>@item.Paidwages</td>
+                <td>@item.Remarks</td>
+            </tr>
+            }
+        </table>
+    </div>
+</body>
+</html>
+
+
+

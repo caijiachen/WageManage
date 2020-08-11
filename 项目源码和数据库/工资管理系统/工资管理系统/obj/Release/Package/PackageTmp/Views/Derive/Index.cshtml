@@ -1,0 +1,171 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMoney.cshtml";
+}
+
+
+@using Models;
+@model List<Personnel>
+@{
+    List<Personnel> psl = ViewBag.personnellist;
+    List<Shop> shop = ViewBag.shoplist;
+    List<Ranks> rank = ViewBag.ranklist;
+    List<GetPrize> gpe = ViewBag.getprizelist;
+    List<Attendance> atd = ViewBag.attendancelist;
+    List<Subsidynotes> ssn = ViewBag.subsidynoteslist;
+    double a = 0;
+    int b = 0;
+    int c = 0;
+    double d = 0;
+    double e = 0;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Default</title>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Content/css")
+</head>
+<body>
+    <div>
+        <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#AddPay">新增</button>
+        <div>
+            <form method="post" action="" class="form-inline">
+                <label for="Name">姓名:</label>
+                <input type="text" name="Name" id="Name" value="@ViewBag.Name" class="form-control" />
+                <input type="submit" value="查询" class="btn btn-primary" />
+            </form>
+        </div>
+        <table class="table table-bordered">
+            <tr>
+                <th>员工姓名</th>
+                <th>店铺名称</th>
+                <th>等级</th>
+                @*<th>工资年月</th>*@
+                <th>基本工资</th>
+                <th>考勤扣款</th>
+                <th>补贴总金额</th>
+                <th>奖金金额</th>
+                <th>应发工资</th>
+                <th>实发工资总额</th>
+                <th>备注</th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    @foreach (var item1 in shop.Where(p => p.ID == item.ShopID))
+                    {
+                        <td>@item1.ShopName</td>
+                    }@foreach (var item1 in rank.Where(p => p.ID == item.RankID))
+                    {
+                        <td>@item1.RankName</td>
+                        <td>@item1.Basepay</td>
+                    }
+                    @foreach (var item1 in atd.Where(p => p.PersonnelID == item.ID))
+                    {
+                        b -= int.Parse(item1.AttendanceSet.PayDeduction.ToString()) * int.Parse(item1.Counts.ToString());
+                        if (item1.PersonnelID == 0)
+                        {
+                            b += 80;
+                        }
+                    }
+                    <td>@b</td>
+
+                    @foreach (var item1 in ssn.Where(p => p.PersonnelID == item.ID))
+                    {
+                        c += int.Parse(item1.SubsidyDefault.ToString());
+                    }
+                    <td>@c</td>
+
+                    @foreach (var item1 in gpe.Where(p => p.PersonnelID == item.ID))
+                    {
+                        a += double.Parse(item1.Moneys.ToString());
+                    }
+                    <td>@a</td>
+                    @foreach (var item1 in rank.Where(p => p.ID == item.RankID))
+                    {
+                        d += double.Parse((item1.Basepay + a + c).ToString());
+                    }
+                    <td>@d</td>
+                    @foreach (var item1 in rank.Where(p => p.ID == item.RankID))
+                    {
+                        e += double.Parse((item1.Basepay + a + c + b).ToString());
+                    }
+                    <td>@e</td>
+                    @{a = 0;}
+                    @{b = 0;}
+                    @{c = 0;}
+                    @{d = 0;}
+                    @{e = 0;}
+                    <td>
+                        @*<a href="/Personnel/Edit/@item.ID" class="btn btn-link">编辑</a>*@
+                        <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#EditRemarks" data-whatever="@item.ID">导出工资表</button>
+                        @*<a href="/GetPrize/Delete/@item.ID" class="btn btn-link" onclick="return confirm('你确定要删除  这个员工嘛！')">删除</a>*@
+                    </td>
+                </tr>
+
+            }
+        </table>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 form-inline">
+                <label>总共 @ViewBag.totalPages 行</label>&nbsp;
+                <label>选择显示的行数：</label>
+                <select name="pageSize" id="pageSize" onclick="window.location = this.value;">
+                    @{
+                        int[] count = new[] { 5, 10, 20, 30, 40, 50 };
+                    }
+                    @foreach (var item in count)
+                    {
+                        if (item.Equals(ViewBag.pageSize))
+                        {
+                            <option selected value="/Derive/Index?Name=@ViewBag.Name&pageIndex=1&pageSize=@item">@item</option>
+
+                        }
+                        else
+                        {
+                            <option value="/Derive/Index?Name=@ViewBag.Name&pageIndex=1&pageSize=@item">@item</option>
+
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-lg-4">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li class="page-item"><a class="page-link" href="/Derive/Index?Name=@ViewBag.Name&pageIndex=1&pageSize=@ViewBag.pageSize">首页</a></li>
+                        @if (ViewBag.pageIndex > 1)
+                        {
+                            <li class="page-item"><a class="page-link" href="/Derive/Index?Name=@ViewBag.Name&pageIndex=@(ViewBag.pageIndex-1)&pageSize=@ViewBag.pageSize">上一页</a></li>
+                        }
+                        else
+                        {
+                            <li class="page-item disabled"><a class="page-link" href="#">上一页</a></li>
+                        }
+
+                        <li class="page-item"><a class="page-link" href="#">@ViewBag.pageIndex</a></li>
+                        @if (ViewBag.pageIndex < ViewBag.totalPages)
+                        {
+                            <li class="page-item"><a class="page-link" href="/Derive/Index?Name=@ViewBag.Name&pageIndex=@(ViewBag.pageIndex+1)&pageSize=@ViewBag.pageSize">下一页</a></li>
+                        }
+                        else
+                        {
+                            <li class="page-item disabled"><a class="page-link" href="#">下一页</a></li>
+
+                        }
+                        <li class="page-item"><a class="page-link" href="/Derive/Index?Name=@ViewBag.Name&pageIndex=@ViewBag.totalPages&pageSize=@ViewBag.pageSize">尾页</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+</body>
+</html>
+
+
+
+

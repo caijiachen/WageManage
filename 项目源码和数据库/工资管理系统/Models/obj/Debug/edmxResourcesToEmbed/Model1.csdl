@@ -1,0 +1,364 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MoneyManageModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Attendance">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PersonnelID" Type="Int32" Nullable="false" />
+    <Property Name="AttendanceSetID" Type="Int32" Nullable="false" />
+    <Property Name="Counts" Type="Int32" />
+    <Property Name="Dates" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="AttendanceSet" Relationship="Self.FK__Attendanc__Atten__286302EC" FromRole="Attendance" ToRole="AttendanceSet" />
+    <NavigationProperty Name="Personnel" Relationship="Self.FK__Attendanc__Perso__276EDEB3" FromRole="Attendance" ToRole="Personnel" />
+  </EntityType>
+  <EntityType Name="Attendances">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PersonnelID" Type="Int32" Nullable="false" />
+    <Property Name="AttendanceStates" Type="Int32" />
+    <NavigationProperty Name="Personnel" Relationship="Self.FK__Attendanc__Perso__7A672E12" FromRole="Attendances" ToRole="Personnel" />
+  </EntityType>
+  <EntityType Name="AttendanceSet">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AttendanceName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="PayDeduction" Type="Int32" />
+    <NavigationProperty Name="Attendance" Relationship="Self.FK__Attendanc__Atten__286302EC" FromRole="AttendanceSet" ToRole="Attendance" />
+  </EntityType>
+  <EntityType Name="Department">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DepartmentName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Personnel" Relationship="Self.FK__Personnel__Depar__1FCDBCEB" FromRole="Department" ToRole="Personnel" />
+  </EntityType>
+  <EntityType Name="GetPrize">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PersonnelID" Type="Int32" Nullable="false" />
+    <Property Name="PrizeID" Type="Int32" Nullable="false" />
+    <Property Name="Moneys" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="PrizeDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Personnel" Relationship="Self.FK__GetPrize__Person__2B3F6F97" FromRole="GetPrize" ToRole="Personnel" />
+    <NavigationProperty Name="Prize" Relationship="Self.FK__GetPrize__PrizeI__2C3393D0" FromRole="GetPrize" ToRole="Prize" />
+  </EntityType>
+  <EntityType Name="Pay">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PersonnelID" Type="Int32" Nullable="false" />
+    <Property Name="PersonnelName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="ShopName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="RankName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="PayDate" Type="DateTime" Precision="3" />
+    <Property Name="Basepay" Type="Int32" />
+    <Property Name="AttendanceDebits" Type="Int32" />
+    <Property Name="SubMoney" Type="Int32" />
+    <Property Name="PrizeMoney" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="Payables" Type="Int32" />
+    <Property Name="Paidwages" Type="Int32" />
+    <Property Name="Remarks" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Personnel" Relationship="Self.FK__Pay__PersonnelID__7D439ABD" FromRole="Pay" ToRole="Personnel" />
+  </EntityType>
+  <EntityType Name="Personnel">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Pwd" Type="Int32" />
+    <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="States" Type="Int32" />
+    <Property Name="RankID" Type="Int32" />
+    <Property Name="RoleID" Type="Int32" />
+    <Property Name="DepartmentID" Type="Int32" />
+    <Property Name="Sex" Type="Boolean" />
+    <Property Name="Addresses" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Photo" Type="Int32" />
+    <Property Name="ShopID" Type="Int32" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Attendance" Relationship="Self.FK__Attendanc__Perso__276EDEB3" FromRole="Personnel" ToRole="Attendance" />
+    <NavigationProperty Name="Attendances" Relationship="Self.FK__Attendanc__Perso__7A672E12" FromRole="Personnel" ToRole="Attendances" />
+    <NavigationProperty Name="Department" Relationship="Self.FK__Personnel__Depar__1FCDBCEB" FromRole="Personnel" ToRole="Department" />
+    <NavigationProperty Name="GetPrize" Relationship="Self.FK__GetPrize__Person__2B3F6F97" FromRole="Personnel" ToRole="GetPrize" />
+    <NavigationProperty Name="Pay" Relationship="Self.FK__Pay__PersonnelID__7D439ABD" FromRole="Personnel" ToRole="Pay" />
+    <NavigationProperty Name="Ranks" Relationship="Self.FK__Personnel__RankI__1DE57479" FromRole="Personnel" ToRole="Ranks" />
+    <NavigationProperty Name="Roles" Relationship="Self.FK__Personnel__RoleI__1ED998B2" FromRole="Personnel" ToRole="Roles" />
+    <NavigationProperty Name="Shop" Relationship="Self.FK__Personnel__ShopI__20C1E124" FromRole="Personnel" ToRole="Shop" />
+    <NavigationProperty Name="Subsidynotes" Relationship="Self.FK__Subsidyno__Perso__239E4DCF" FromRole="Personnel" ToRole="Subsidynotes" />
+  </EntityType>
+  <EntityType Name="Prize">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PrizeName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="PayDeductionDefault" Type="Int32" />
+    <NavigationProperty Name="GetPrize" Relationship="Self.FK__GetPrize__PrizeI__2C3393D0" FromRole="Prize" ToRole="GetPrize" />
+  </EntityType>
+  <EntityType Name="Ranks">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RankName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Basepay" Type="Int32" />
+    <NavigationProperty Name="Personnel" Relationship="Self.FK__Personnel__RankI__1DE57479" FromRole="Ranks" ToRole="Personnel" />
+  </EntityType>
+  <EntityType Name="Roles">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RoleName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Personnel" Relationship="Self.FK__Personnel__RoleI__1ED998B2" FromRole="Roles" ToRole="Personnel" />
+  </EntityType>
+  <EntityType Name="Shop">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ShopName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Area" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="States" Type="Int32" />
+    <Property Name="ShopManager" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Remarks" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Personnel" Relationship="Self.FK__Personnel__ShopI__20C1E124" FromRole="Shop" ToRole="Personnel" />
+  </EntityType>
+  <EntityType Name="Subsidy">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SubsidyName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="SubsidyDefault" Type="Int32" />
+    <NavigationProperty Name="Subsidynotes" Relationship="Self.FK__Subsidyno__Subsi__24927208" FromRole="Subsidy" ToRole="Subsidynotes" />
+  </EntityType>
+  <EntityType Name="Subsidynotes">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PersonnelID" Type="Int32" Nullable="false" />
+    <Property Name="SubsidyID" Type="Int32" Nullable="false" />
+    <Property Name="SubsidyDefault" Type="Int32" />
+    <Property Name="SubsidyDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Personnel" Relationship="Self.FK__Subsidyno__Perso__239E4DCF" FromRole="Subsidynotes" ToRole="Personnel" />
+    <NavigationProperty Name="Subsidy" Relationship="Self.FK__Subsidyno__Subsi__24927208" FromRole="Subsidynotes" ToRole="Subsidy" />
+  </EntityType>
+  <Association Name="FK__Attendanc__Atten__286302EC">
+    <End Role="AttendanceSet" Type="Self.AttendanceSet" Multiplicity="1" />
+    <End Role="Attendance" Type="Self.Attendance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AttendanceSet">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Attendance">
+        <PropertyRef Name="AttendanceSetID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Attendanc__Perso__276EDEB3">
+    <End Role="Personnel" Type="Self.Personnel" Multiplicity="1" />
+    <End Role="Attendance" Type="Self.Attendance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Personnel">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Attendance">
+        <PropertyRef Name="PersonnelID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Attendanc__Perso__7A672E12">
+    <End Role="Personnel" Type="Self.Personnel" Multiplicity="1" />
+    <End Role="Attendances" Type="Self.Attendances" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Personnel">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Attendances">
+        <PropertyRef Name="PersonnelID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Personnel__Depar__1FCDBCEB">
+    <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+    <End Role="Personnel" Type="Self.Personnel" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Personnel">
+        <PropertyRef Name="DepartmentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__GetPrize__Person__2B3F6F97">
+    <End Role="Personnel" Type="Self.Personnel" Multiplicity="1" />
+    <End Role="GetPrize" Type="Self.GetPrize" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Personnel">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="GetPrize">
+        <PropertyRef Name="PersonnelID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__GetPrize__PrizeI__2C3393D0">
+    <End Role="Prize" Type="Self.Prize" Multiplicity="1" />
+    <End Role="GetPrize" Type="Self.GetPrize" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Prize">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="GetPrize">
+        <PropertyRef Name="PrizeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Pay__PersonnelID__7D439ABD">
+    <End Role="Personnel" Type="Self.Personnel" Multiplicity="1" />
+    <End Role="Pay" Type="Self.Pay" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Personnel">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Pay">
+        <PropertyRef Name="PersonnelID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Personnel__RankI__1DE57479">
+    <End Role="Ranks" Type="Self.Ranks" Multiplicity="0..1" />
+    <End Role="Personnel" Type="Self.Personnel" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Ranks">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Personnel">
+        <PropertyRef Name="RankID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Personnel__RoleI__1ED998B2">
+    <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
+    <End Role="Personnel" Type="Self.Personnel" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Roles">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Personnel">
+        <PropertyRef Name="RoleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Personnel__ShopI__20C1E124">
+    <End Role="Shop" Type="Self.Shop" Multiplicity="0..1" />
+    <End Role="Personnel" Type="Self.Personnel" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Shop">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Personnel">
+        <PropertyRef Name="ShopID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Subsidyno__Perso__239E4DCF">
+    <End Role="Personnel" Type="Self.Personnel" Multiplicity="1" />
+    <End Role="Subsidynotes" Type="Self.Subsidynotes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Personnel">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Subsidynotes">
+        <PropertyRef Name="PersonnelID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Subsidyno__Subsi__24927208">
+    <End Role="Subsidy" Type="Self.Subsidy" Multiplicity="1" />
+    <End Role="Subsidynotes" Type="Self.Subsidynotes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Subsidy">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Subsidynotes">
+        <PropertyRef Name="SubsidyID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="MoneyManageEntities2" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Attendance" EntityType="Self.Attendance" />
+    <EntitySet Name="Attendances" EntityType="Self.Attendances" />
+    <EntitySet Name="AttendanceSet" EntityType="Self.AttendanceSet" />
+    <EntitySet Name="Department" EntityType="Self.Department" />
+    <EntitySet Name="GetPrize" EntityType="Self.GetPrize" />
+    <EntitySet Name="Pay" EntityType="Self.Pay" />
+    <EntitySet Name="Personnel" EntityType="Self.Personnel" />
+    <EntitySet Name="Prize" EntityType="Self.Prize" />
+    <EntitySet Name="Ranks" EntityType="Self.Ranks" />
+    <EntitySet Name="Roles" EntityType="Self.Roles" />
+    <EntitySet Name="Shop" EntityType="Self.Shop" />
+    <EntitySet Name="Subsidy" EntityType="Self.Subsidy" />
+    <EntitySet Name="Subsidynotes" EntityType="Self.Subsidynotes" />
+    <AssociationSet Name="FK__Attendanc__Atten__286302EC" Association="Self.FK__Attendanc__Atten__286302EC">
+      <End Role="AttendanceSet" EntitySet="AttendanceSet" />
+      <End Role="Attendance" EntitySet="Attendance" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Attendanc__Perso__276EDEB3" Association="Self.FK__Attendanc__Perso__276EDEB3">
+      <End Role="Personnel" EntitySet="Personnel" />
+      <End Role="Attendance" EntitySet="Attendance" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Attendanc__Perso__7A672E12" Association="Self.FK__Attendanc__Perso__7A672E12">
+      <End Role="Personnel" EntitySet="Personnel" />
+      <End Role="Attendances" EntitySet="Attendances" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Personnel__Depar__1FCDBCEB" Association="Self.FK__Personnel__Depar__1FCDBCEB">
+      <End Role="Department" EntitySet="Department" />
+      <End Role="Personnel" EntitySet="Personnel" />
+    </AssociationSet>
+    <AssociationSet Name="FK__GetPrize__Person__2B3F6F97" Association="Self.FK__GetPrize__Person__2B3F6F97">
+      <End Role="Personnel" EntitySet="Personnel" />
+      <End Role="GetPrize" EntitySet="GetPrize" />
+    </AssociationSet>
+    <AssociationSet Name="FK__GetPrize__PrizeI__2C3393D0" Association="Self.FK__GetPrize__PrizeI__2C3393D0">
+      <End Role="Prize" EntitySet="Prize" />
+      <End Role="GetPrize" EntitySet="GetPrize" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Pay__PersonnelID__7D439ABD" Association="Self.FK__Pay__PersonnelID__7D439ABD">
+      <End Role="Personnel" EntitySet="Personnel" />
+      <End Role="Pay" EntitySet="Pay" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Personnel__RankI__1DE57479" Association="Self.FK__Personnel__RankI__1DE57479">
+      <End Role="Ranks" EntitySet="Ranks" />
+      <End Role="Personnel" EntitySet="Personnel" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Personnel__RoleI__1ED998B2" Association="Self.FK__Personnel__RoleI__1ED998B2">
+      <End Role="Roles" EntitySet="Roles" />
+      <End Role="Personnel" EntitySet="Personnel" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Personnel__ShopI__20C1E124" Association="Self.FK__Personnel__ShopI__20C1E124">
+      <End Role="Shop" EntitySet="Shop" />
+      <End Role="Personnel" EntitySet="Personnel" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Subsidyno__Perso__239E4DCF" Association="Self.FK__Subsidyno__Perso__239E4DCF">
+      <End Role="Personnel" EntitySet="Personnel" />
+      <End Role="Subsidynotes" EntitySet="Subsidynotes" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Subsidyno__Subsi__24927208" Association="Self.FK__Subsidyno__Subsi__24927208">
+      <End Role="Subsidy" EntitySet="Subsidy" />
+      <End Role="Subsidynotes" EntitySet="Subsidynotes" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

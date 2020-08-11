@@ -1,0 +1,503 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMoney.cshtml";
+}
+
+@using Models;
+@model List<Personnel>
+@{
+    List<Ranks> ran = ViewBag.ranklist;
+    List<Models.Roles> rol = ViewBag.rolelist;
+    List<Department> dep = ViewBag.departmentlist;
+    List<Shop> sho = ViewBag.shoplist;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Default</title>
+    <script src="~/Zoter/jquery-3.4.1.min.js"></script>
+    <script src="~/Zoter/jquery.validate.min.js"></script>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Content/css")
+</head>
+<body>
+    <style>
+        /*Jquery验证样式*/
+        label.error {
+            color: red;
+        }
+
+        input.error {
+            border-color: red;
+        }
+    </style>
+    <div>
+        <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#AddPersonnel">新增</button>
+        <div>
+            <form method="post" action="" class="form-inline">
+                <label for="Name">姓名:</label>
+                <input type="text" name="Name" id="Name" value="@ViewBag.Name" class="form-control" />
+                <input type="submit" value="查询" class="btn btn-primary" />
+            </form>
+        </div>
+        <table class="table table-bordered">
+            <tr>
+                <th>工号</th>
+                <th>密码</th>
+                <th>姓名</th>
+                <th>状态</th>
+                <th>等级</th>
+                <th>角色</th>
+                <th>部门</th>
+                <th>性别</th>
+                <th>地址</th>
+                <th>电话</th>
+                <th>所属店铺</th>
+                <th>电子邮箱</th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ID</td>
+                    <td>@item.Pwd</td>
+                    <td>@item.Name</td>
+                    @if (item.States == 0)
+                    {
+                        <td>未入职</td>
+                    }
+                    else
+                    {
+                        <td>已入职</td>
+                    }
+                    @foreach (var item1 in ran.Where(p => p.ID == item.RankID))
+                    {
+                        <td>@item1.RankName </td>
+                    }
+                    @foreach (var item1 in rol.Where(p => p.ID == item.RoleID))
+                    {
+                        <td>@item1.RoleName </td>
+                    }
+
+                    @foreach (var item1 in dep.Where(p => p.ID == item.DepartmentID))
+                    {
+                        <td>@item1.DepartmentName </td>
+                    }
+                    @if (item.Sex == true)
+                    {
+                        <td>男</td>
+                    }
+                    else
+                    {
+                        <td>女</td>
+                    }
+
+                    <td>@item.Addresses</td>
+                    <td>@item.Photo</td>
+                    @foreach (var item1 in sho.Where(p => p.ID == item.ShopID))
+                    {
+                        <td>@item1.ShopName </td>
+                    }
+                    <td>@item.Email</td>
+                    <td>
+                        @*<a href="/Personnel/Edit/@item.ID" class="btn btn-link">编辑</a>*@
+                        <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#EditPersonnel" data-whatever="@item.ID">编辑</button>
+                        <a href="/Personnel/Delete/@item.ID" class="btn btn-link" onclick="return confirm('你确定要删除 @item.Name 这个员工嘛！')">删除</a>
+                    </td>
+                </tr>
+
+            }
+        </table>
+    </div>
+    <div class="row">
+        <div class="col-lg-8 form-inline">
+            <label>总共 @ViewBag.totalPages 行</label>&nbsp;
+            <label>选择显示的行数：</label>
+            <select name="pageSize" id="pageSize" onclick="window.location = this.value;">
+                @{
+                    int[] count = new[] { 5, 10, 20, 30, 40, 50 };
+                }
+                @foreach (var item in count)
+                {
+                    if (item.Equals(ViewBag.pageSize))
+                    {
+                        <option selected value="/Personnel/Index?Name=@ViewBag.Name&pageIndex=1&pageSize=@item">@item</option>
+
+                    }
+                    else
+                    {
+                        <option value="/Personnel/Index?Name=@ViewBag.Name&pageIndex=1&pageSize=@item">@item</option>
+
+                    }
+                }
+            </select>
+        </div>
+        <div class="col-lg-4">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item"><a class="page-link" href="/Personnel/Index?Name=@ViewBag.Name&pageIndex=1&pageSize=@ViewBag.pageSize">首页</a></li>
+                    @if (ViewBag.pageIndex > 1)
+                    {
+                        <li class="page-item"><a class="page-link" href="/Personnel/Index?Name=@ViewBag.Name&pageIndex=@(ViewBag.pageIndex-1)&pageSize=@ViewBag.pageSize">上一页</a></li>
+                    }
+                    else
+                    {
+                        <li class="page-item disabled"><a class="page-link" href="#">上一页</a></li>
+                    }
+
+                    <li class="page-item"><a class="page-link" href="#">@ViewBag.pageIndex</a></li>
+                    @if (ViewBag.pageIndex < ViewBag.totalPages)
+                    {
+                        <li class="page-item"><a class="page-link" href="/Personnel/Index?Name=@ViewBag.Name&pageIndex=@(ViewBag.pageIndex+1)&pageSize=@ViewBag.pageSize">下一页</a></li>
+                    }
+                    else
+                    {
+                        <li class="page-item disabled"><a class="page-link" href="#">下一页</a></li>
+
+                    }
+                    <li class="page-item"><a class="page-link" href="/Personnel/Index?Name=@ViewBag.Name&pageIndex=@ViewBag.totalPages&pageSize=@ViewBag.pageSize">尾页</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</body>
+</html>
+
+<!-- 模态框（Modal）添加 -->
+<div class="modal fade" id="AddPersonnel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">添加员工</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <form action="/Personnel/Add" method="post" id="AddPsl">
+
+                <input type="hidden" name="States" id="States" />
+                @*<label>密码</label>
+                    <input type="text" name="Pwd" id="Pwd" />*@
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="Pwd">密码</label>
+                    <div class="col-md-10">
+
+                        <input class="form-control text-box single-line" id="Pwd" name="Pwd" type="text" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="Name">姓名</label>
+                    <div class="col-md-10">
+
+                        <input class="form-control text-box single-line" id="Name" name="Name" type="text" />
+                    </div>
+                </div>
+                @*<label>姓名</label>
+                    <input type="text" name="Name" id="Name" />
+                    <br />
+                    <label>状态</label>
+                    <input type="hidden" name="States" id="States" value="0" />*@
+                <input class="form-control text-box single-line" id="States" name="States" type="hidden" />
+                @*<select name="States" id="States">
+                        <option value="">--请选择--</option>
+                        <option value="0">未在职</option>
+                        <option value="1">在职</option>
+                    </select>*@
+                <div class="form-group">
+                    <label class="control-label col-md-2">等级</label>
+                    <div class="col-md-10">
+                        @*<label>等级</label>*@
+                        @Html.DropDownList("RankID", ViewBag.ranklist1 as List<SelectListItem>, new { @class = "form-control text-box single-line" })
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2">角色</label>
+                    <div class="col-md-10">
+                        @*<label>等级</label>*@
+                        @Html.DropDownList("RoleID", ViewBag.rolelist1 as List<SelectListItem>, new { @class = "form-control text-box single-line" })
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2">部门</label>
+                    <div class="col-md-10">
+                        @*<label>等级</label>*@
+                        @Html.DropDownList("DepartmentID", ViewBag.departmentlist1 as List<SelectListItem>, new { @class = "form-control text-box single-line" })
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2">店铺</label>
+                    <div class="col-md-10">
+                        @*<label>等级</label>*@
+                        @Html.DropDownList("ShopID", ViewBag.shoplist1 as List<SelectListItem>, new { @class = "form-control text-box single-line" })
+
+                    </div>
+                </div>
+                @*<label>角色</label>
+                    @Html.DropDownList("RoleID", ViewBag.rolelist1 as List<SelectListItem>, new { @class = "form-control text-box single-line" })
+
+                    <label>部门</label>
+                    @Html.DropDownList("DepartmentID", ViewBag.departmentlist1 as List<SelectListItem>, new { @class = "form-control text-box single-line" })
+
+                    <label>店铺</label>
+                    @Html.DropDownList("ShopID", ViewBag.shoplist1 as List<SelectListItem>, new { @class = "form-control text-box single-line" })*@
+
+                <div class="form-group">
+                    <label>男</label>
+                    <input type="radio" name="Sex" class="Sex" value="true" checked="checked" />
+                    <label>女</label>
+                    <input type="radio" name="Sex" class="Sex" value="false" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="Addresses">地址</label>
+                    <div class="col-md-10">
+
+                        <input class="form-control text-box single-line" id="Addresses" name="Addresses" type="text" />
+                    </div>
+                </div>
+                @*<label>地址</label>
+                    <input type="text" name="Addresses" id="Addresses" />
+                            <br />*@
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="Photo">电话号码</label>
+                    <div class="col-md-10">
+
+                        <input class="form-control text-box single-line" id="Photo" name="Photo" type="text" />
+                    </div>
+                </div>
+                @*<label>电话</label>
+                    <input type="text" name="Photo" id="Photo" />
+                            <br />*@
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="Email">电子邮箱</label>
+                    <div class="col-md-10">
+
+                        <input class="form-control text-box single-line" id="Email" name="Email" type="text" />
+                    </div>
+                </div>
+                @*<label>电子邮箱</label>
+                    <input type="text" name="Email" id="Email" />*@
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="Addsubmit">添加</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- 模态框（Modal）  修改 -->
+<div class="modal fade" id="EditPersonnel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title" id="myModalLabel">
+                    修改学生信息
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form action="/Personnel/Edit" method="post" id="EditPsl">
+                    <div class="form-horizontal">
+
+                        <input id="ID" name="ID" type="hidden" value="" />
+                        <input id="States" name="States" type="hidden" value="" />
+                        <input id="Sex" name="Sex" type="hidden" value="" />
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="Pwd">密码</label>
+                            <div class="col-md-10">
+
+                                <input class="form-control text-box single-line" id="Pwd" name="Pwd" type="text" value="" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="Name">姓名</label>
+                            <div class="col-md-10">
+                                <input class="form-control text-box single-line" id="Name" name="Name" type="text" value="" />
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="States">状态</label>
+                            <div class="col-md-10">
+                                <select name="States" id="States" class="form-control text-box single-line">
+                                    <option value="">--请选择--</option>
+                                    <option value="0">未入职</option>
+                                    <option value="1">已入职</option>
+                                </select>
+
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="RankID">等级</label>
+                            <div class="col-md-10">
+
+                                @Html.DropDownList("RankID", ViewBag.ranklist1 as List<SelectListItem>, new { @class = "form-control text-box single-line" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="RoleID">角色</label>
+                            <div class="col-md-10">
+                                @Html.DropDownList("RoleID", ViewBag.rolelist1 as List<SelectListItem>, new { @class = "form-control text-box single-line" })
+
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="DepartmentID">部门</label>
+                            <div class="col-md-10">
+
+                                @Html.DropDownList("DepartmentID", ViewBag.departmentlist1 as List<SelectListItem>, new { @class = "form-control text-box single-line" })
+                            </div>
+                        </div>
+
+                        @*<div class="form-group">
+                                <label class="control-label col-md-2" for="Sex">性别</label>
+                                <div class="col-md-10">
+                                    <input  class="radio" value="true" type="radio" name="Sex"/>男
+                                    <input class="radio2" value="false" type="radio" name="Sex"/>女
+                                </div>
+                            </div>*@
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="Addresses">地址</label>
+                            <div class="col-md-10">
+                                <input class="form-control text-box single-line" id="Addresses" name="Addresses" type="text" value="" />
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="Photo">电话</label>
+                            <div class="col-md-10">
+                                <input class="form-control text-box single-line" id="Photo" name="Photo" type="text" value="" />
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="ShopID">店铺</label>
+                            <div class="col-md-10">
+
+                                @Html.DropDownList("ShopID", ViewBag.shoplist1 as List<SelectListItem>, new { @class = "form-control text-box single-line" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="Email">邮箱</label>
+                            <div class="col-md-10">
+                                <input class="form-control text-box single-line" id="Email" name="Email" type="text" value="" />
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    关闭
+                </button>
+                <button type="button" class="btn btn-primary" id="Editsubmit">
+                    提交更改
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script>
+        //添加
+        $("#Addsubmit").click(function () {
+            $("#AddPsl").submit();
+        })
+
+        //修改
+
+        $('#EditPersonnel').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var id = button.data('whatever')
+            var model = $(this)
+            $.ajax({
+                type: "post",
+                url: "/Personnel/EditAjax",
+                dataType: "json",
+                data: {
+                    ID: id
+                },
+                success: function (value) {
+                    console.log(value);
+                    model.find("[name='ID']").val(value["ID"]);
+                    model.find("[name='DepartmentID']").val(value["DepartmentID"]);
+                    model.find("[name='ShopID']").val(value["ShopID"]);
+                    model.find("[name='RankID']").val(value["RankID"]);
+                    model.find("[name='RoleID']").val(value["RoleID"]);
+                    model.find("[name='States']").val(value["States"]);
+                    model.find("[name='Pwd']").val(value["Pwd"]);
+                    model.find("[name='Name']").val(value["Name"]);
+                    model.find("[name='Addresses']").val(value["Addresses"]);
+                    model.find("[name='Photo']").val(value["Photo"]);
+                    model.find("[name='Email']").val(value["Email"]);
+                    model.find("[name='Sex']").val(value["Sex"]);
+
+                    //if (value["Sex"] == true) {
+                    //    $(".radio").attr("checked", true);
+                    //    $(".radio2").attr("checked", false);
+                    //}
+                    //if (value["Sex"] == false) {
+                    //    $(".radio2").attr("checked", true);
+                    //   $(".radio").attr("checked", false);
+                    //}
+                }
+            })
+
+        })
+        $("#Editsubmit").click(function () {
+            $("#EditPsl").submit();
+        })
+        //JQuery插件验证
+        $(function () {
+            //from表单验证
+            $("#AddPsl").validate({
+                //设置验证的元素验证项
+                rules: {
+                    Name: { required: true },
+                    Pwd: { required: true },
+                    Addresses: { required: true },
+                    Photo: { required: true },
+                    Email: { required: true },
+                },
+                //设置对应的提示信息
+                messages: {
+                    Name: { required: "请输入旧密码" },
+                    Pwd: { required: "请输入新密码" },
+                    Addresses: { required: "请输入新密码" },
+                    Photo: { required: "请输入新密码" },
+                    Email: { required: "请输入新密码" },
+                },
+            });
+        });
+
+
+    </script>
+}
+
+

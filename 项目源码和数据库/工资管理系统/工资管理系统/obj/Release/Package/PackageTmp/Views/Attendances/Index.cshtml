@@ -1,0 +1,91 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMoney.cshtml";
+}
+@using Models
+@model Personnel
+@{
+    List<Attendances> ads = ViewBag.attendanceslist;
+
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Default</title>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Content/css")
+</head>
+<body>
+    <div>
+        <table class="table table-bordered">
+            <tr>
+                <th>员工姓名</th>
+                <th>考勤状态</th>
+            </tr>
+            <tr>
+                <td>@Model.Name</td>
+                @foreach (var item in ads.Where(p => p.PersonnelID == Model.ID))
+                {
+                    if (item.AttendanceStates == 1)
+                    {
+                        <td>未打卡</td>
+                        <td>
+                            <a href="/Attendances/Kaoqin?ID=@item.ID" class="submit" id="Button1">打卡</a>
+                            @*<input id="Button1" type="button" value="签到" />*@
+                        </td>
+                    }
+                    if (item.AttendanceStates == 2)
+                    {
+                        <td>已打卡</td>
+                        <td>
+                            <label>继续努力</label>
+                        </td>
+                    }
+                    if (item.AttendanceStates == 3||item.AttendanceStates==4)
+                    {
+                        <td>已迟到</td>
+                        <td>
+                            <label>加油哈</label>
+                        </td>
+                    }
+
+                    @*<td>@item.AttendanceStates</td>*@
+                }
+            </tr>
+
+        </table>
+    </div>
+</body>
+</html>
+@section scripts{
+    <script>
+        var r = setInterval(function () {
+            Show();
+        }, 1000)      //时间间隔(1秒=1000毫秒,一秒钟执行一次)
+        function Show() {
+            document.getElementById("s").innerHTML = new Date().toLocaleString();   //获取当前时间，动态显示
+
+        }
+        $("#Button1").click(function () {
+            //var stamp = document.getElementById("Button1");
+            var a = new Date();
+            var hour = a.getHours();
+            var d = 10;//定义一个变量,赋值打卡最晚时间
+            //系统当前时间>定义时间    迟到 ,相反  打卡成功
+            if (hour >= d) {
+                alert('您迟到了!');
+                $("#Button1").text("下次一定");
+                $("#Button1").attr("disabled", true);
+            }
+            else {
+                alert('打卡成功!');
+                $("#Button1").text("继续努力");
+                $("#Button1").attr("disabled", true);
+            }
+        });
+    </script>
+}

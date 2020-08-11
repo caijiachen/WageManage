@@ -1,0 +1,166 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMoney.cshtml";
+}
+
+
+@using Models;
+@model List<AttendanceSet>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Default</title>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Content/css")
+</head>
+<body>
+    <div>
+        <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#AddAttendanceSet">新增</button>
+        <table class="table table-bordered">
+            <tr>
+                <th>扣款类型</th>
+                <th>扣除金额</th>
+                <th>操作</th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.AttendanceName </td>
+                    <td>@item.PayDeduction</td>
+                    <td>
+                        @*<a href="/Personnel/Edit/@item.ID" class="btn btn-link">编辑</a>*@
+                        <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#EditAttendanceSet" data-whatever="@item.ID">编辑</button>
+                        <a href="/AttendanceSet/Delete/@item.ID" class="btn btn-link" onclick="return confirm('你确定要删除 @item.AttendanceName 嘛！')">删除</a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</body>
+</html>
+
+
+<!-- 模态框（Modal）添加 -->
+<div class="modal fade" id="AddAttendanceSet" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">添加店铺</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <form action="/AttendanceSet/Add" method="post" id="AddattendanceSet">
+                <div class="form-group">
+                    <label class="control-label col-md-2">扣款类型</label>
+                    <div class="col-md-10">
+                        <input type="text" name="AttendanceName" id="AttendanceName" class="form-control text-box single-line" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2">扣除金额</label>
+                    <div class="col-md-10">
+                        <input type="text" name="PayDeduction" id="PayDeduction" class="form-control text-box single-line" />
+                    </div>
+                </div>
+
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="Addsubmit">添加</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 模态框（Modal）  修改 -->
+<div class="modal fade" id="EditAttendanceSet" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title" id="myModalLabel">
+                    修改学生信息
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form action="/AttendanceSet/Edit" method="post" id="EditattendanceSet">
+                    <div class="form-horizontal">
+
+                        <input id="ID" name="ID" type="hidden" value="" />
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="SubsidyName">扣款类型</label>
+                            <div class="col-md-10">
+
+                                <input class="form-control text-box single-line" id="AttendanceName" name="AttendanceName" type="text" value="" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="SubsidyDefault">扣除金额</label>
+                            <div class="col-md-10">
+                                <input class="form-control text-box single-line" id="PayDeduction" name="PayDeduction" type="text" value="" />
+
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    关闭
+                </button>
+                <button type="button" class="btn btn-primary" id="Editsubmit">
+                    提交更改
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script>
+        //添加
+        $("#Addsubmit").click(function () {
+            $("#AddattendanceSet").submit();
+        })
+
+        //修改
+
+        $('#EditAttendanceSet').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var id = button.data('whatever')
+            var model = $(this)
+            $.ajax({
+                type: "post",
+                url: "/AttendanceSet/EditAjax",
+                dataType: "json",
+                data: {
+                    ID: id
+                },
+                success: function (value) {
+                    console.log(value);
+                    model.find("[name='ID']").val(value["ID"]);
+                    model.find("[name='AttendanceName']").val(value["AttendanceName"]);
+                    model.find("[name='PayDeduction']").val(value["PayDeduction"]);
+
+                }
+            })
+
+        })
+        $("#Editsubmit").click(function () {
+            $("#EditattendanceSet").submit();
+        })
+
+
+    </script>
+}
+

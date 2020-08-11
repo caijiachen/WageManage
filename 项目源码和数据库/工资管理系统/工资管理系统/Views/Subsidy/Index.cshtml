@@ -1,0 +1,164 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMoney.cshtml";
+}
+
+@using Models;
+@model List<Subsidy>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Default</title>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Content/css")
+</head>
+<body>
+    <div>
+        <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#AddSubsidy">新增</button>
+        <table class="table table-bordered">
+            <tr>
+                <th>补贴名称</th>
+                <th>补贴金额</th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.SubsidyName </td>
+                    <td>@item.SubsidyDefault</td>
+                    <td>
+                        @*<a href="/Personnel/Edit/@item.ID" class="btn btn-link">编辑</a>*@
+                        <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#EditSubsidy" data-whatever="@item.ID">编辑</button>
+                        <a href="/Subsidy/Delete/@item.ID" class="btn btn-link" onclick="return confirm('你确定要删除 @item.SubsidyName 嘛！')">删除</a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</body>
+</html>
+
+
+<!-- 模态框（Modal）添加 -->
+<div class="modal fade" id="AddSubsidy" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">添加店铺</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <form action="/Subsidy/Add" method="post" id="Addsubsidy">
+                <div class="form-group">
+                    <label class="control-label col-md-2">奖金名称</label>
+                    <div class="col-md-10">
+                        <input type="text" name="SubsidyName" id="SubsidyName" class="form-control text-box single-line" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2">奖金金额</label>
+                    <div class="col-md-10">
+                        <input type="text" name="SubsidyDefault" id="SubsidyDefault" class="form-control text-box single-line" />
+                    </div>
+                </div>
+
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="Addsubmit">添加</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 模态框（Modal）  修改 -->
+<div class="modal fade" id="EditSubsidy" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title" id="myModalLabel">
+                    修改学生信息
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form action="/Subsidy/Edit" method="post" id="Editsubsidy">
+                    <div class="form-horizontal">
+
+                        <input id="ID" name="ID" type="hidden" value="" />
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="SubsidyName">补贴名称</label>
+                            <div class="col-md-10">
+
+                                <input class="form-control text-box single-line" id="SubsidyName" name="SubsidyName" type="text" value="" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="SubsidyDefault">补贴金额</label>
+                            <div class="col-md-10">
+                                <input class="form-control text-box single-line" id="SubsidyDefault" name="SubsidyDefault" type="text" value="" />
+
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    关闭
+                </button>
+                <button type="button" class="btn btn-primary" id="Editsubmit">
+                    提交更改
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script>
+        //添加
+        $("#Addsubmit").click(function () {
+            $("#Addsubsidy").submit();
+        })
+
+        //修改
+
+        $('#EditSubsidy').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var id = button.data('whatever')
+            var model = $(this)
+            $.ajax({
+                type: "post",
+                url: "/Subsidy/EditAjax",
+                dataType: "json",
+                data: {
+                    ID: id
+                },
+                success: function (value) {
+                    console.log(value);
+                    model.find("[name='ID']").val(value["ID"]);
+                    model.find("[name='SubsidyName']").val(value["SubsidyName"]);
+                    model.find("[name='SubsidyDefault']").val(value["SubsidyDefault"]);
+
+                }
+            })
+
+        })
+        $("#Editsubmit").click(function () {
+            $("#Editsubsidy").submit();
+        })
+
+
+    </script>
+}
+

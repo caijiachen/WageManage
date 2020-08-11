@@ -1,0 +1,340 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MoneyManageModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Attendance">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PersonnelID" Type="int" Nullable="false" />
+    <Property Name="AttendanceSetID" Type="int" Nullable="false" />
+    <Property Name="Counts" Type="int" />
+    <Property Name="Dates" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Attendances">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PersonnelID" Type="int" Nullable="false" />
+    <Property Name="AttendanceStates" Type="int" />
+  </EntityType>
+  <EntityType Name="AttendanceSet">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AttendanceName" Type="nvarchar" MaxLength="20" />
+    <Property Name="PayDeduction" Type="int" />
+  </EntityType>
+  <EntityType Name="Department">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DepartmentName" Type="nvarchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="GetPrize">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PersonnelID" Type="int" Nullable="false" />
+    <Property Name="PrizeID" Type="int" Nullable="false" />
+    <Property Name="Moneys" Type="money" />
+    <Property Name="PrizeDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Pay">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PersonnelID" Type="int" Nullable="false" />
+    <Property Name="PersonnelName" Type="nvarchar" MaxLength="20" />
+    <Property Name="ShopName" Type="nvarchar" MaxLength="20" />
+    <Property Name="RankName" Type="nvarchar" MaxLength="20" />
+    <Property Name="PayDate" Type="datetime" />
+    <Property Name="Basepay" Type="int" />
+    <Property Name="AttendanceDebits" Type="int" />
+    <Property Name="SubMoney" Type="int" />
+    <Property Name="PrizeMoney" Type="money" />
+    <Property Name="Payables" Type="int" />
+    <Property Name="Paidwages" Type="int" />
+    <Property Name="Remarks" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Personnel">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Pwd" Type="int" />
+    <Property Name="Name" Type="nvarchar" MaxLength="20" />
+    <Property Name="States" Type="int" />
+    <Property Name="RankID" Type="int" />
+    <Property Name="RoleID" Type="int" />
+    <Property Name="DepartmentID" Type="int" />
+    <Property Name="Sex" Type="bit" />
+    <Property Name="Addresses" Type="nvarchar" MaxLength="50" />
+    <Property Name="Photo" Type="int" />
+    <Property Name="ShopID" Type="int" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Prize">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PrizeName" Type="nvarchar" MaxLength="20" />
+    <Property Name="PayDeductionDefault" Type="int" />
+  </EntityType>
+  <EntityType Name="Ranks">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RankName" Type="nvarchar" MaxLength="20" />
+    <Property Name="Basepay" Type="int" />
+  </EntityType>
+  <EntityType Name="Roles">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RoleName" Type="nvarchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="Shop">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ShopName" Type="nvarchar" MaxLength="20" />
+    <Property Name="Area" Type="nvarchar" MaxLength="50" />
+    <Property Name="States" Type="int" />
+    <Property Name="ShopManager" Type="nvarchar" MaxLength="20" />
+    <Property Name="Remarks" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Subsidy">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SubsidyName" Type="nvarchar" MaxLength="20" />
+    <Property Name="SubsidyDefault" Type="int" />
+  </EntityType>
+  <EntityType Name="Subsidynotes">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PersonnelID" Type="int" Nullable="false" />
+    <Property Name="SubsidyID" Type="int" Nullable="false" />
+    <Property Name="SubsidyDefault" Type="int" />
+    <Property Name="SubsidyDate" Type="datetime" />
+  </EntityType>
+  <Association Name="FK__Attendanc__Atten__286302EC">
+    <End Role="AttendanceSet" Type="Self.AttendanceSet" Multiplicity="1" />
+    <End Role="Attendance" Type="Self.Attendance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AttendanceSet">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Attendance">
+        <PropertyRef Name="AttendanceSetID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Attendanc__Perso__276EDEB3">
+    <End Role="Personnel" Type="Self.Personnel" Multiplicity="1" />
+    <End Role="Attendance" Type="Self.Attendance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Personnel">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Attendance">
+        <PropertyRef Name="PersonnelID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Attendanc__Perso__7A672E12">
+    <End Role="Personnel" Type="Self.Personnel" Multiplicity="1" />
+    <End Role="Attendances" Type="Self.Attendances" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Personnel">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Attendances">
+        <PropertyRef Name="PersonnelID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__GetPrize__Person__2B3F6F97">
+    <End Role="Personnel" Type="Self.Personnel" Multiplicity="1" />
+    <End Role="GetPrize" Type="Self.GetPrize" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Personnel">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="GetPrize">
+        <PropertyRef Name="PersonnelID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__GetPrize__PrizeI__2C3393D0">
+    <End Role="Prize" Type="Self.Prize" Multiplicity="1" />
+    <End Role="GetPrize" Type="Self.GetPrize" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Prize">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="GetPrize">
+        <PropertyRef Name="PrizeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Pay__PersonnelID__7D439ABD">
+    <End Role="Personnel" Type="Self.Personnel" Multiplicity="1" />
+    <End Role="Pay" Type="Self.Pay" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Personnel">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Pay">
+        <PropertyRef Name="PersonnelID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Personnel__Depar__1FCDBCEB">
+    <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+    <End Role="Personnel" Type="Self.Personnel" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Personnel">
+        <PropertyRef Name="DepartmentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Personnel__RankI__1DE57479">
+    <End Role="Ranks" Type="Self.Ranks" Multiplicity="0..1" />
+    <End Role="Personnel" Type="Self.Personnel" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Ranks">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Personnel">
+        <PropertyRef Name="RankID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Personnel__RoleI__1ED998B2">
+    <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
+    <End Role="Personnel" Type="Self.Personnel" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Roles">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Personnel">
+        <PropertyRef Name="RoleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Personnel__ShopI__20C1E124">
+    <End Role="Shop" Type="Self.Shop" Multiplicity="0..1" />
+    <End Role="Personnel" Type="Self.Personnel" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Shop">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Personnel">
+        <PropertyRef Name="ShopID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Subsidyno__Perso__239E4DCF">
+    <End Role="Personnel" Type="Self.Personnel" Multiplicity="1" />
+    <End Role="Subsidynotes" Type="Self.Subsidynotes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Personnel">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Subsidynotes">
+        <PropertyRef Name="PersonnelID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Subsidyno__Subsi__24927208">
+    <End Role="Subsidy" Type="Self.Subsidy" Multiplicity="1" />
+    <End Role="Subsidynotes" Type="Self.Subsidynotes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Subsidy">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Subsidynotes">
+        <PropertyRef Name="SubsidyID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="MoneyManageModelStoreContainer">
+    <EntitySet Name="Attendance" EntityType="Self.Attendance" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Attendances" EntityType="Self.Attendances" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AttendanceSet" EntityType="Self.AttendanceSet" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="GetPrize" EntityType="Self.GetPrize" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Pay" EntityType="Self.Pay" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Personnel" EntityType="Self.Personnel" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Prize" EntityType="Self.Prize" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Ranks" EntityType="Self.Ranks" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Shop" EntityType="Self.Shop" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Subsidy" EntityType="Self.Subsidy" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Subsidynotes" EntityType="Self.Subsidynotes" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Attendanc__Atten__286302EC" Association="Self.FK__Attendanc__Atten__286302EC">
+      <End Role="AttendanceSet" EntitySet="AttendanceSet" />
+      <End Role="Attendance" EntitySet="Attendance" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Attendanc__Perso__276EDEB3" Association="Self.FK__Attendanc__Perso__276EDEB3">
+      <End Role="Personnel" EntitySet="Personnel" />
+      <End Role="Attendance" EntitySet="Attendance" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Attendanc__Perso__7A672E12" Association="Self.FK__Attendanc__Perso__7A672E12">
+      <End Role="Personnel" EntitySet="Personnel" />
+      <End Role="Attendances" EntitySet="Attendances" />
+    </AssociationSet>
+    <AssociationSet Name="FK__GetPrize__Person__2B3F6F97" Association="Self.FK__GetPrize__Person__2B3F6F97">
+      <End Role="Personnel" EntitySet="Personnel" />
+      <End Role="GetPrize" EntitySet="GetPrize" />
+    </AssociationSet>
+    <AssociationSet Name="FK__GetPrize__PrizeI__2C3393D0" Association="Self.FK__GetPrize__PrizeI__2C3393D0">
+      <End Role="Prize" EntitySet="Prize" />
+      <End Role="GetPrize" EntitySet="GetPrize" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Pay__PersonnelID__7D439ABD" Association="Self.FK__Pay__PersonnelID__7D439ABD">
+      <End Role="Personnel" EntitySet="Personnel" />
+      <End Role="Pay" EntitySet="Pay" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Personnel__Depar__1FCDBCEB" Association="Self.FK__Personnel__Depar__1FCDBCEB">
+      <End Role="Department" EntitySet="Department" />
+      <End Role="Personnel" EntitySet="Personnel" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Personnel__RankI__1DE57479" Association="Self.FK__Personnel__RankI__1DE57479">
+      <End Role="Ranks" EntitySet="Ranks" />
+      <End Role="Personnel" EntitySet="Personnel" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Personnel__RoleI__1ED998B2" Association="Self.FK__Personnel__RoleI__1ED998B2">
+      <End Role="Roles" EntitySet="Roles" />
+      <End Role="Personnel" EntitySet="Personnel" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Personnel__ShopI__20C1E124" Association="Self.FK__Personnel__ShopI__20C1E124">
+      <End Role="Shop" EntitySet="Shop" />
+      <End Role="Personnel" EntitySet="Personnel" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Subsidyno__Perso__239E4DCF" Association="Self.FK__Subsidyno__Perso__239E4DCF">
+      <End Role="Personnel" EntitySet="Personnel" />
+      <End Role="Subsidynotes" EntitySet="Subsidynotes" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Subsidyno__Subsi__24927208" Association="Self.FK__Subsidyno__Subsi__24927208">
+      <End Role="Subsidy" EntitySet="Subsidy" />
+      <End Role="Subsidynotes" EntitySet="Subsidynotes" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

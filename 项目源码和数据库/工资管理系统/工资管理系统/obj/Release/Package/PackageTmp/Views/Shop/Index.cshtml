@@ -1,0 +1,198 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMoney.cshtml";
+}
+@using Models;
+@model List<Shop>
+@{
+    List<Personnel> psl = ViewBag.personnellist;
+
+}
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Default</title>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Content/css")
+</head>
+<body>
+    <div>
+        <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#AddShop">新增</button>
+        <table class="table table-bordered">
+            <tr>
+                <th>店铺</th>
+                <th>员工</th>
+                <th>状态</th>
+                <th>地区</th>
+                <th>备注</th>
+            </tr>
+            @foreach (var item in Model)
+            {
+        <tr>
+            <td>@item.ShopName </td>
+            <td>
+                @if (psl.Where(p => p.ShopID == item.ID).Count() == 0)
+                {
+
+                    @:暂无员工
+                }
+                else
+                {
+                    foreach (var item1 in psl.Where(p => p.ShopID == item.ID))
+                    {
+
+                        @item1.Name
+
+                        <br />
+                    }}
+            </td>
+            <td>
+                    @if (item.States == 1)
+                    {
+                        @:营业中
+                    }
+                    else
+                    {
+                        @:暂未营业
+                    }
+            </td>
+            <td>@item.Area</td>
+            <td>@item.Remarks</td>
+            <td>
+                @*<a href="/Personnel/Edit/@item.ID" class="btn btn-link">编辑</a>*@
+                <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#EditShop" data-whatever="@item.ID">编辑</button>
+                <a href="/Shop/Delete/@item.ID" class="btn btn-link" onclick="return confirm('你确定要删除 @item.ShopName 嘛！')">删除</a>
+            </td>
+        </tr>
+            }
+        </table>
+    </div>
+</body>
+</html>
+
+<!-- 模态框（Modal）添加 -->
+<div class="modal fade" id="AddShop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">添加店铺</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <form action="/Shop/Add" method="post" id="Addshop">
+                <div class="form-group">
+                    <label class="control-label col-md-3">店铺名称</label>
+                    <div class="col-md-10">
+                        <input type="text" name="ShopName" id="ShopName" class = "form-control text-box single-line" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2">备注</label>
+                    <div class="col-md-10">
+                        <input type="text" name="Remarks" id="Remarks" class = "form-control text-box single-line" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2">地区</label>
+                    <div class="col-md-10">
+                        <input type="text" name="Area" id="Area" class = "form-control text-box single-line" />
+                    </div>
+                </div>
+                <input type="hidden" name="States" id="States" value="0" />
+
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="Addsubmit">添加</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 模态框（Modal）  修改 -->
+<div class="modal fade" id="EditShop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title" id="myModalLabel">
+                    修改店铺信息
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form action="/Shop/Edit" method="post" id="Editsh">
+                    <div class="form-horizontal">
+
+                        <input id="ID" name="ID" type="hidden" value="" />
+                        
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="PersonnelID">员工</label>
+                            <div class="col-md-10">
+                                @Html.DropDownList("PersonnelID", ViewBag.personnellist1 as List<SelectListItem>, new { @class = "form-control text-box single-line" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="Shop">店铺</label>
+                            <div class="col-md-10">
+                                <select class="form-control text-box single-line">
+                                    @foreach (var item in Model)
+                                    {
+                                        <option value="@item.ID">@item.ShopName</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    关闭
+                </button>
+                <button type="button" class="btn btn-primary" id="Editsubmit">
+                    提交更改
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        
+        $("#Addsubmit").click(function () {
+            $("#Addshop").submit();
+        })
+        $('#EditShop').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var id = button.data('whatever')
+            var model = $(this)
+            $.ajax({
+                type: "post",
+                url: "/Shop/EditAjax",
+                dataType: "json",
+                data: {
+                    ID: id
+                },
+                success: function (value) {
+                    console.log(value);
+                    model.find("[name='ID']").val(value["ID"]);
+                    model.find("[name='Personnel']").val(value["Personnel"]);
+                    alert(val(value["Personnel"]));
+                    model.find("[name='ShopName']").val(value["ShopName"]);
+                }
+            })
+
+        })
+        $("#Editsubmit").click(function () {
+            $("#Editsh").submit();
+        })
+    </script>
+}

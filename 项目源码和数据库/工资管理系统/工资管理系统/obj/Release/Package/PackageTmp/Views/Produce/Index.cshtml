@@ -1,0 +1,79 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@using Models;
+@model List<Pays>
+@{
+    List<Personnel> psl = ViewBag.personnellist;
+    List<Shop> shop = ViewBag.shoplist;
+    List<Ranks> rank = ViewBag.ranklist;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Default</title>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Content/css")
+</head>
+<body>
+    <div>
+        <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#AddPay">新增</button>
+        <div>
+            <form method="post" action="" class="form-inline">
+                <label for="Name">姓名:</label>
+                <input type="text" name="Name" id="Name" value="@ViewBag.Name" class="form-control" />
+                <input type="submit" value="查询" class="btn btn-primary" />
+            </form>
+        </div>
+        <table class="table table-bordered">
+            <tr>
+                <th>员工姓名</th>
+                <th>店铺名称</th>
+                <th>等级</th>
+                @*<th>工资年月</th>
+                <th>店铺名称</th>
+                <th>等级名</th>*@
+                <th>基本工资</th>
+                <th>考勤扣款</th>
+                <th>补贴总金额</th>
+                <th>奖金金额</th>
+                <th>应发工资</th>
+                <th>实发工资总额</th>
+                <th>备注</th>
+            </tr>
+            @foreach (var item in Model)
+            {
+        <tr>
+            @foreach (var item1 in psl.Where(p => p.ID == item.PersonnelID))
+            {
+                <td>@item1.Name</td>
+            }
+            @foreach (var item1 in shop.Where(p => p.ID == item.ShopID))
+            {
+                <td>@item1.ShopName</td>
+            }@foreach (var item1 in rank.Where(p => p.ID == item.RankID))
+            {
+                <td>@item1.RankName</td>
+                <td>@item1.Basepay</td>
+            }
+            <td>@item.AttendanceSet.PayDeduction</td>
+            
+            <td>
+                @*<a href="/Personnel/Edit/@item.ID" class="btn btn-link">编辑</a>*@
+                <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#EditGetPrize" data-whatever="@item.ID">编辑</button>
+                <a href="/GetPrize/Delete/@item.ID" class="btn btn-link" onclick="return confirm('你确定要删除  这个员工嘛！')">删除</a>
+            </td>
+        </tr>
+
+            }
+        </table>
+    </div>
+</body>
+</html>

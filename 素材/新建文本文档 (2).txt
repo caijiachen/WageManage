@@ -1,0 +1,123 @@
+<!-- 模态框（Modal）  修改 -->
+<div class="modal fade" id="Edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    修改学生信息
+                </h4>
+            </div>
+
+            <div class="modal-body">
+                <form action="/Students/Edit" method="post" id="EditForm">
+                    <div class="form-horizontal">
+
+                        <input class="form-control text-box single-line" id="stuID" name="stuID" type="text" value="" style="display:none"/>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="classID">班级</label>
+                            <div class="col-md-10">
+                                @Html.DropDownList("classID", ViewBag.classlist as List<SelectListItem>, new { @class = "form-control" })
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="stuNumber">学号</label>
+                            <div class="col-md-10">
+                                <input class="form-control text-box single-line" id="stuNumber" name="stuNumber" type="text" value="" />
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="stuName">学生姓名</label>
+                            <div class="col-md-10">
+                                <input class="form-control text-box single-line" id="stuName" name="stuName" type="text" value="" />
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="stuSex">性别</label>
+                            <div class="col-md-10">
+                               
+                                @Html.DropDownList("stuSex", ViewBag.sexlist as List<SelectListItem>, new { @class = "form-control text-box single-line" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="stuPhone">电话</label>
+                            <div class="col-md-10">
+                                <input class="form-control text-box single-line" id="stuPhone" name="stuPhone" type="text" value="" />
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="stuGrade">年级</label>
+                            <div class="col-md-10">
+                                <input class="form-control text-box single-line" id="stuGrade" name="stuGrade" type="text" value="" />
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="stuDeaprtment">院系</label>
+                            <div class="col-md-10">
+                                   @Html.DropDownList("stuDeaprtmenti", ViewBag.department as List<SelectListItem>,new { @class = "form-control text-box single-line" })
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="stuMajor">专业</label>
+                            <div class="col-md-10">
+                                <input class="form-control text-box single-line" id="stuMajor" name="stuMajor" type="text" value="" />
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="stuRemark">备注</label>
+                            <div class="col-md-10">
+                                <input class="form-control text-box single-line" id="stuRemark" name="stuRemark" type="text" value="" />
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    关闭
+                </button>
+                <button type="button" class="btn btn-primary" id="Editsubmit">
+                    提交更改
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+----------可能会用的表------------
+go
+create table Pays(
+ID int primary key identity(1,1),
+PersonnelID int references Personnel(ID) not null,
+ShopID int references Shop(ID) not null,
+RankID int references Ranks(ID) not null,
+PayDate datetime,
+AttendanceSetID int references AttendanceSet(ID) not null,
+GetPrizeID int references GetPrize(ID) not null,
+Payables int,
+Paidwages int,
+Remarks nvarchar(50)
+)

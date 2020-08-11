@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMoney.cshtml";
+}
+@using Models;
+@model List<Department>
+@{
+    List<Personnel> psl = ViewBag.personnellist;
+
+}
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Default</title>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Content/css")
+</head>
+<body>
+    <div>
+        <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#AddDepartment">新增</button>
+        <table class="table table-bordered">
+            <tr>
+                <th>部门</th>
+                <th>员工</th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.DepartmentName </td>
+                    <td>
+                        @if (psl.Where(p => p.DepartmentID == item.ID).Count() == 0)
+                        {
+
+                            @:暂无员工
+                        }
+                        else
+                        {
+                            foreach (var item1 in psl.Where(p => p.DepartmentID == item.ID))
+                            {
+
+                                @item1.Name
+
+                                <br />
+                            }
+                        }
+                    </td>
+                    <td>
+                        @*<a href="/Personnel/Edit/@item.ID" class="btn btn-link">编辑</a>*@
+                        @*<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#EditShop" data-whatever="@item.ID">编辑</button>*@
+                        <a href="/Departments/Delete/@item.ID" class="btn btn-primary btn-lg" onclick="return confirm('你确定要删除 @item.DepartmentName 嘛！')">删除</a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</body>
+</html>
+<!-- 模态框（Modal）添加 -->
+<div class="modal fade" id="AddDepartment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">添加部门</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <form action="/Departments/Add" method="post" id="Adddepartment">
+                <div class="form-group">
+                    <label class="control-label col-md-3">部门名称</label>
+                    <div class="col-md-10">
+                        <input type="text" name="DepartmentName" id="DepartmentName" class="form-control text-box single-line" />
+                    </div>
+                </div>
+
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="Addsubmit">添加</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+
+        $("#Addsubmit").click(function () {
+            $("#Adddepartment").submit();
+        })
+    </script>
+    }

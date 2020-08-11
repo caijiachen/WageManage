@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d5975252576046beb09691819a985732" Name="Diagram1">
+        <EntityTypeShape EntityType="MoneyManageModel.Attendance" Width="1.5" PointX="5.25" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MoneyManageModel.Attendances" Width="1.5" PointX="5.25" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MoneyManageModel.AttendanceSet" Width="1.5" PointX="3" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MoneyManageModel.Department" Width="1.5" PointX="0.75" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MoneyManageModel.GetPrize" Width="1.5" PointX="8.25" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MoneyManageModel.Pay" Width="1.5" PointX="5.25" PointY="15.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MoneyManageModel.Personnel" Width="1.5" PointX="3" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MoneyManageModel.Prize" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MoneyManageModel.Ranks" Width="1.5" PointX="0.75" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MoneyManageModel.Roles" Width="1.5" PointX="0.75" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MoneyManageModel.Shop" Width="1.5" PointX="0.75" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MoneyManageModel.Subsidy" Width="1.5" PointX="6" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MoneyManageModel.Subsidynotes" Width="1.5" PointX="8.25" PointY="4.5" IsExpanded="true" />
+        <AssociationConnector Association="MoneyManageModel.FK__Attendanc__Atten__286302EC" ManuallyRouted="false" />
+        <AssociationConnector Association="MoneyManageModel.FK__Attendanc__Perso__276EDEB3" ManuallyRouted="false" />
+        <AssociationConnector Association="MoneyManageModel.FK__Attendanc__Perso__7A672E12" ManuallyRouted="false" />
+        <AssociationConnector Association="MoneyManageModel.FK__Personnel__Depar__1FCDBCEB" ManuallyRouted="false" />
+        <AssociationConnector Association="MoneyManageModel.FK__GetPrize__Person__2B3F6F97" ManuallyRouted="false" />
+        <AssociationConnector Association="MoneyManageModel.FK__GetPrize__PrizeI__2C3393D0" ManuallyRouted="false" />
+        <AssociationConnector Association="MoneyManageModel.FK__Pay__PersonnelID__7D439ABD" ManuallyRouted="false" />
+        <AssociationConnector Association="MoneyManageModel.FK__Personnel__RankI__1DE57479" ManuallyRouted="false" />
+        <AssociationConnector Association="MoneyManageModel.FK__Personnel__RoleI__1ED998B2" ManuallyRouted="false" />
+        <AssociationConnector Association="MoneyManageModel.FK__Personnel__ShopI__20C1E124" ManuallyRouted="false" />
+        <AssociationConnector Association="MoneyManageModel.FK__Subsidyno__Perso__239E4DCF" ManuallyRouted="false" />
+        <AssociationConnector Association="MoneyManageModel.FK__Subsidyno__Subsi__24927208" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

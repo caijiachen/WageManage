@@ -1,0 +1,147 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMoney.cshtml";
+}
+
+@using Models;
+@{
+    Personnel psl = ViewBag.psl;
+    
+}
+
+
+<!-- 面包屑导航 -->
+<ul class="breadcrumb">
+    <li><a href="#"><span class="glyphicon glyphicon-home"></span></a></li>
+    <li class="active">我的账号信息</li>
+</ul>
+
+<style>
+    fieldset {
+        padding: .35em .625em .75em;
+        margin: 0 2px;
+        border: 1px solid silver;
+    }
+
+    legend {
+        padding: .5em;
+        border: 0;
+        width: auto;
+        font-size: 18px;
+        margin-bottom: 0px;
+    }
+
+    /*Jquery验证样式*/
+    label.error {
+        color: red;
+    }
+
+    input.error {
+        border-color: red;
+    }
+</style>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Default</title>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Content/css")
+</head> 
+<body>
+    <div>
+
+        <div>
+                <form action="/EditPossword/Edit" method="post" id="EditForm">
+                    <div class="form-horizontal">
+                        <input type="hidden" name="ID" id="ID" />
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="olderpwd">旧密码</label>
+                            <div class="col-md-10">
+                                <input class="form-control text-box single-line" id="olderpwd" name="olderpwd" type="text" value="" />
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="Pwd">新密码</label>
+                            <div class="col-md-10">
+                                <input class="form-control text-box single-line" id="Pwd" name="Pwd" type="text" value="" />
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="rewpwd">重新输入</label>
+                            <div class="col-md-10">
+                                <input class="form-control text-box single-line" id="rewpwd" name="rewpwd" type="text" value="" />
+
+                            </div>
+                        </div>
+                        <input type="submit" class="btn btn-primary" value="保存" />
+                    </div>
+                </form>
+        </div>
+
+    </div>
+</body>
+</html>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+
+
+
+@section scripts{
+
+    <script type="text/javascript">
+        //JQuery插件验证
+        $(function () {
+            //from表单验证
+            $("#EditForm").validate({
+                //设置验证的元素验证项
+                rules: {
+                    olderpwd: { required: true },
+                    LoginPwd: { required: true },
+                    rewpwd: { required: true, equalTo: "#Pwd" },
+                },
+                //设置对应的提示信息
+                messages: {
+                    olderpwd: { required: "请输入旧密码" },
+                    LoginPwd: { required: "请输入新密码" },
+                    rewpwd: { required: "请输入确认密码", equalTo: "密码不一致" },
+                },
+            });
+        });
+
+        //$("#Editsubmit").click(function () {
+
+        //    var olderpwd = $("#olderpwd").val()
+        //    var rewpwd = $("#rewpwd").val()
+
+        //    $.ajax({
+        //        type: "post",
+        //        url: "/EditPossword/Edit",
+        //        data: {
+        //            olderpwd: olderpwd,//旧密码
+        //            rewpwd: rewpwd   //新密码
+
+        //        },
+        //        success: function (data) {
+        //            if (data == 1) {
+        //                alert('修改成功');
+        //                window.location = "/Home/Index";
+        //            } else {
+        //                alert(data);
+        //            }
+        //        }
+
+        //    });
+        //});
+
+    </script>
+
+}

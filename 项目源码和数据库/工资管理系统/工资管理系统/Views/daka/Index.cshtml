@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMoney.cshtml";
+}
+
+<div id="s">
+    @*定义一个DIV,给一个id*@
+</div>
+<input id="Button1" type="button" value="签到" onclick="line()" />   @*按钮点击事件*@
+<script>var r = setInterval(function () {
+        Show();
+    },1000)     //时间间隔(1秒=1000毫秒,一秒钟执行一次)
+    function Show() {
+        document.getElementById("s").innerHTML = new Date().toLocaleString();   //获取当前时间，动态显示
+
+    }
+
+    function line() {
+        var a = new Date().toLocaleString();
+        var d = '09:00:00';      //定义一个变量,赋值打卡最晚时间
+        //系统当前时间>定义时间    迟到 ,相反  打卡成功
+        if (a > d) {
+            alert('您迟到了!');
+        }
+        else {
+            alert('打卡成功!');
+        }
+
+    }</script>
+

@@ -1,0 +1,11 @@
+E:\毕业项目\项目源码和数据库\工资管理系统\Models\bin\Debug\Models.dll.config
+E:\毕业项目\项目源码和数据库\工资管理系统\Models\bin\Debug\Models.dll
+E:\毕业项目\项目源码和数据库\工资管理系统\Models\bin\Debug\Models.pdb
+E:\毕业项目\项目源码和数据库\工资管理系统\Models\bin\Debug\EntityFramework.dll
+E:\毕业项目\项目源码和数据库\工资管理系统\Models\bin\Debug\EntityFramework.SqlServer.dll
+E:\毕业项目\项目源码和数据库\工资管理系统\Models\bin\Debug\EntityFramework.xml
+E:\毕业项目\项目源码和数据库\工资管理系统\Models\bin\Debug\EntityFramework.SqlServer.xml
+E:\毕业项目\项目源码和数据库\工资管理系统\Models\obj\Debug\Models.csproj.CoreCompileInputs.cache
+E:\毕业项目\项目源码和数据库\工资管理系统\Models\obj\Debug\Models.csproj.CopyComplete
+E:\毕业项目\项目源码和数据库\工资管理系统\Models\obj\Debug\Models.dll
+E:\毕业项目\项目源码和数据库\工资管理系统\Models\obj\Debug\Models.pdb

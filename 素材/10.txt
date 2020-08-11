@@ -1,0 +1,212 @@
+
+@{
+    ViewBag.Title = "StuAccount";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+
+<!-- 面包屑导航 -->
+<ul class="breadcrumb">
+    <li><a href="#"><span class="glyphicon glyphicon-home"></span></a></li>
+    <li class="active">我的账号信息</li>
+</ul>
+
+<style>
+    fieldset {
+        padding: .35em .625em .75em;
+        margin: 0 2px;
+        border: 1px solid silver;
+    }
+
+    legend {
+        padding: .5em;
+        border: 0;
+        width: auto;
+        font-size: 18px;
+        margin-bottom: 0px;
+    }
+
+    /*Jquery验证样式*/
+    label.error {
+        color: red;
+    }
+
+    input.error {
+        border-color: red;
+    }
+</style>
+
+@using course_system.Models;
+@{
+    Logins log = Session["login"] as Logins;
+}
+<form>
+    <fieldset>
+        <legend>详细信息如下:</legend>
+        <div>
+            <dl class="dl-horizontal">
+                <dt>登录名(学号) </dt>
+                <dd>
+                    @log.LoginName
+                </dd>
+                <dt>账号类型 </dt>
+                <dd>
+                    @if (log.LoginType == 1)
+                    {
+                        @:学生
+                    }
+                    else
+                    {
+                        @:管理员
+                    }
+                </dd>
+                <dt>姓名 </dt>
+                <dd>
+                    @log.Students.stuName
+                </dd>
+                <dt>性别 </dt>
+                <dd>
+                    @if (log.Students.stuSex == 1)
+                    {
+                        @:男
+                    }
+                    else
+                    {
+                        @:女
+                    }
+                </dd>
+                <dt>专业 </dt>
+                <dd>
+                    @log.Students.stuMajor
+                </dd>
+                <dt>院(系)部 </dt>
+                <dd>
+                    @log.Students.stuDeaprtment
+                </dd>
+                <dt>班级 </dt>
+                <dd>
+                    @log.Students.Class.classNumber
+                </dd>
+                <dt>联系电话 </dt>
+                <dd>
+                    @log.Students.stuPhone
+                </dd>
+                <dt> 操作</dt>
+                <dd>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                        修改密码
+                    </button>
+
+                </dd>
+
+            </dl>
+        </div>
+    </fieldset>
+</form>
+
+<!-- 修改 -->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <h4 class="modal-title">修改账号密码</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+                <form action="/MeAccount/Edit" method="post" id="EditForm">
+                    <div class="form-horizontal">
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="olderpwd">旧密码</label>
+                            <div class="col-md-10">
+                                <input class="form-control text-box single-line" id="olderpwd" name="olderpwd" type="password" value="" />
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="LoginPwd">新密码</label>
+                            <div class="col-md-10">
+                                <input class="form-control text-box single-line" id="LoginPwd" name="LoginPwd" type="password" value="" />
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2" for="rewpwd">重新输入</label>
+                            <div class="col-md-10">
+                                <input class="form-control text-box single-line" id="rewpwd" name="rewpwd" type="password" value="" />
+
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+
+            <!-- 模态框底部 -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                <button type="submit" class="btn btn-primary" id="Editsubmit">保存</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section scripts{
+
+    <script type="text/javascript">
+        //JQuery插件验证
+        $(function () {
+            //from表单验证
+            $("#EditForm").validate({
+                //设置验证的元素验证项
+                rules: {
+                    olderpwd: { required: true },
+                    LoginPwd: { required: true },
+                    rewpwd: { required: true, equalTo: "#LoginPwd" },
+                },
+                //设置对应的提示信息
+                messages: {
+                    olderpwd: { required: "请输入旧密码" },
+                    LoginPwd: { required: "请输入新密码" },
+                    rewpwd: { required: "请输入确认密码", equalTo: "密码不一致" },
+                },
+            });
+        });
+
+        $("#Editsubmit").click(function () {
+
+            var olderpwd = $("#olderpwd").val()
+            var rewpwd = $("#rewpwd").val()
+          
+            $.ajax({
+                type: "post",
+                url: "/MeAccount/Edit",
+                data: {
+                    olderpwd: olderpwd,//旧密码
+                    rewpwd: rewpwd   //新密码
+
+                },
+                success: function (data) {
+                    if (data == 1) {
+                        alert('修改成功');
+                        window.location = "/MeAccount/StuAccount";
+                    } else {
+                        alert(data);
+                    }
+                }
+
+            });
+        });
+
+    </script>
+
+}

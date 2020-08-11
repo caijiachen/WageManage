@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="MoneyManageModelStoreContainer" CdmEntityContainer="MoneyManageEntities2">
+    <EntitySetMapping Name="Attendance">
+      <EntityTypeMapping TypeName="MoneyManageModel.Attendance">
+        <MappingFragment StoreEntitySet="Attendance">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="PersonnelID" ColumnName="PersonnelID" />
+          <ScalarProperty Name="AttendanceSetID" ColumnName="AttendanceSetID" />
+          <ScalarProperty Name="Counts" ColumnName="Counts" />
+          <ScalarProperty Name="Dates" ColumnName="Dates" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Attendances">
+      <EntityTypeMapping TypeName="MoneyManageModel.Attendances">
+        <MappingFragment StoreEntitySet="Attendances">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="PersonnelID" ColumnName="PersonnelID" />
+          <ScalarProperty Name="AttendanceStates" ColumnName="AttendanceStates" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AttendanceSet">
+      <EntityTypeMapping TypeName="MoneyManageModel.AttendanceSet">
+        <MappingFragment StoreEntitySet="AttendanceSet">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="AttendanceName" ColumnName="AttendanceName" />
+          <ScalarProperty Name="PayDeduction" ColumnName="PayDeduction" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Department">
+      <EntityTypeMapping TypeName="MoneyManageModel.Department">
+        <MappingFragment StoreEntitySet="Department">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GetPrize">
+      <EntityTypeMapping TypeName="MoneyManageModel.GetPrize">
+        <MappingFragment StoreEntitySet="GetPrize">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="PersonnelID" ColumnName="PersonnelID" />
+          <ScalarProperty Name="PrizeID" ColumnName="PrizeID" />
+          <ScalarProperty Name="Moneys" ColumnName="Moneys" />
+          <ScalarProperty Name="PrizeDate" ColumnName="PrizeDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Pay">
+      <EntityTypeMapping TypeName="MoneyManageModel.Pay">
+        <MappingFragment StoreEntitySet="Pay">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="PersonnelID" ColumnName="PersonnelID" />
+          <ScalarProperty Name="PersonnelName" ColumnName="PersonnelName" />
+          <ScalarProperty Name="ShopName" ColumnName="ShopName" />
+          <ScalarProperty Name="RankName" ColumnName="RankName" />
+          <ScalarProperty Name="PayDate" ColumnName="PayDate" />
+          <ScalarProperty Name="Basepay" ColumnName="Basepay" />
+          <ScalarProperty Name="AttendanceDebits" ColumnName="AttendanceDebits" />
+          <ScalarProperty Name="SubMoney" ColumnName="SubMoney" />
+          <ScalarProperty Name="PrizeMoney" ColumnName="PrizeMoney" />
+          <ScalarProperty Name="Payables" ColumnName="Payables" />
+          <ScalarProperty Name="Paidwages" ColumnName="Paidwages" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Personnel">
+      <EntityTypeMapping TypeName="MoneyManageModel.Personnel">
+        <MappingFragment StoreEntitySet="Personnel">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Pwd" ColumnName="Pwd" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="States" ColumnName="States" />
+          <ScalarProperty Name="RankID" ColumnName="RankID" />
+          <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+          <ScalarProperty Name="DepartmentID" ColumnName="DepartmentID" />
+          <ScalarProperty Name="Sex" ColumnName="Sex" />
+          <ScalarProperty Name="Addresses" ColumnName="Addresses" />
+          <ScalarProperty Name="Photo" ColumnName="Photo" />
+          <ScalarProperty Name="ShopID" ColumnName="ShopID" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Prize">
+      <EntityTypeMapping TypeName="MoneyManageModel.Prize">
+        <MappingFragment StoreEntitySet="Prize">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="PrizeName" ColumnName="PrizeName" />
+          <ScalarProperty Name="PayDeductionDefault" ColumnName="PayDeductionDefault" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Ranks">
+      <EntityTypeMapping TypeName="MoneyManageModel.Ranks">
+        <MappingFragment StoreEntitySet="Ranks">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="RankName" ColumnName="RankName" />
+          <ScalarProperty Name="Basepay" ColumnName="Basepay" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Roles">
+      <EntityTypeMapping TypeName="MoneyManageModel.Roles">
+        <MappingFragment StoreEntitySet="Roles">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Shop">
+      <EntityTypeMapping TypeName="MoneyManageModel.Shop">
+        <MappingFragment StoreEntitySet="Shop">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="ShopName" ColumnName="ShopName" />
+          <ScalarProperty Name="Area" ColumnName="Area" />
+          <ScalarProperty Name="States" ColumnName="States" />
+          <ScalarProperty Name="ShopManager" ColumnName="ShopManager" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Subsidy">
+      <EntityTypeMapping TypeName="MoneyManageModel.Subsidy">
+        <MappingFragment StoreEntitySet="Subsidy">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="SubsidyName" ColumnName="SubsidyName" />
+          <ScalarProperty Name="SubsidyDefault" ColumnName="SubsidyDefault" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Subsidynotes">
+      <EntityTypeMapping TypeName="MoneyManageModel.Subsidynotes">
+        <MappingFragment StoreEntitySet="Subsidynotes">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="PersonnelID" ColumnName="PersonnelID" />
+          <ScalarProperty Name="SubsidyID" ColumnName="SubsidyID" />
+          <ScalarProperty Name="SubsidyDefault" ColumnName="SubsidyDefault" />
+          <ScalarProperty Name="SubsidyDate" ColumnName="SubsidyDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,169 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMoney.cshtml";
+}
+
+
+@using Models;
+@model List<Attendance>
+@{
+    List<Personnel> psl = ViewBag.personnellist;
+    List<AttendanceSet> ads = ViewBag.attendanceSetlist;
+    List<Attendances> ats = ViewBag.attendanceslist;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Default</title>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Content/css")
+</head>
+<body>
+    <div>
+        <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#AddAttendance">新增</button>
+        <a href="/Attendance/Gengxin" class="btn btn-primary btn-lg" onclick="return confirm('你确定更新嘛！')">更新</a>
+        <a href="/Attendance/YJKQ" class="btn btn-primary btn-lg" onclick="return confirm('你确定一键考勤嘛！')">一键考勤</a>
+        <div>
+            <form method="post" action="" class="form-inline">
+                <label for="Name">姓名:</label>
+                <input type="text" name="Name" id="Name" value="@ViewBag.Name" class="form-control" />
+                <input type="submit" value="查询" class="btn btn-primary" />
+            </form>
+        </div>
+        <table class="table table-bordered">
+            <tr>
+                <th>员工姓名</th>
+                <th>扣款类型</th>
+                <th>次数</th>
+                @*<th>时间</th>*@
+                <th>操作</th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    @foreach (var item1 in psl.Where(p => p.ID == item.PersonnelID))
+                    {
+                        <td>@item1.Name</td>
+                    }
+                    @foreach (var item1 in ads.Where(p => p.ID == item.AttendanceSetID))
+                    {
+                        <td>@item1.AttendanceName</td>
+                    }
+                    <td>@item.Counts</td>
+                    @*<td>@item.Dates</td>*@
+                    <td>
+                        @*<a href="/Personnel/Edit/@item.ID" class="btn btn-link">编辑</a>*@
+                        @*<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#EditCounts" data-whatever="@item.ID">修改</button>*@
+                        <a href="/Attendance/Delete/@item.ID" class="btn btn-primary btn-lg" onclick="return confirm('你确定要删除这条记录嘛！')">删除</a>
+                    </td>
+                </tr>
+
+            }
+        </table>
+    </div>
+</body>
+</html>
+<!-- 模态框（Modal）添加 -->
+<div class="modal fade" id="AddAttendance" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">添加考勤</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <form action="/Attendance/Add" method="post" id="Addadc">
+                <input type="hidden" name="ID" id="ID" value="" />
+                <label>员工姓名</label>
+                @Html.DropDownList("PersonnelID", ViewBag.personnellist1 as List<SelectListItem>, new { @class = "form-control text-box single-line" })
+                <br />
+                <label>补贴金名称</label>
+                @Html.DropDownList("AttendanceSetID", ViewBag.attendanceSetlist1 as List<SelectListItem>, new { @class = "form-control text-box single-line" })
+                <br />
+                <label>未签到</label>
+                <div>
+                    @foreach (var item in ats.Where(p => p.AttendanceStates == 1))
+                    {
+                    <label>@item.Personnel.Name</label>
+                    }
+                </div>
+                <label>已迟到</label>
+                <div>
+                    @foreach (var item in ats.Where(p => p.AttendanceStates == 3))
+                    {
+                        <label>@item.Personnel.Name</label>
+                    }
+                </div>
+                <input type="hidden" name="Dates" id="Dates" value="@ViewBag.jsq" />
+                <input type="hidden" name="Counts" id="Counts" value="1" />
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="Addsubmit">添加</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 模态框（Modal）修改次数 -->
+<div class="modal fade" id="EditCounts" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">添加补贴</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <form action="/Attendance/EditC" method="post" id="Editcount">
+                <input type="hidden" name="ID" id="ID" value="" />
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="Counts">次数</label>
+                    <div class="col-md-10">
+                        <input class="form-control text-box single-line" id="Counts" name="Counts" type="text" value="" />
+                    </div>
+                </div>
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="Editsubmit">添加</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        $("#Addsubmit").click(function () {
+            $("#Addadc").submit();
+        })
+        $('#EditCounts').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var id = button.data('whatever')
+            var model = $(this)
+            $.ajax({
+                type: "post",
+                url: "/Attendance/EditAjax",
+                dataType: "json",
+                data: {
+                    ID: id
+                },
+                success: function (value) {
+                    console.log(value);
+                    model.find("[name='ID']").val(value["ID"]);
+                    model.find("[name='Counts']").val(value["Counts"]);
+                }
+            })
+
+        })
+        $("#Editsubmit").click(function () {
+            $("#Editcount").submit();
+        })
+    </script>
+}
+
+
+
+
+
